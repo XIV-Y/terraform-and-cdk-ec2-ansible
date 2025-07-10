@@ -1,0 +1,73 @@
+- name: EC2 Server Setup
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Update all packages
+      yum:
+        name: "*"
+        state: latest
+
+    - name: Install additional packages
+      yum:
+        name:
+          - git
+          - curl
+          - wget
+          - vim
+          - htop
+          - tree
+        state: present
+
+    - name: Ensure SL command is installed
+      yum:
+        name: sl
+        state: present
+
+    - name: Create application directory
+      file:
+        path: /opt/myapp
+        state: directory
+        mode: "0755"
+
+    - name: Create a sample configuration file
+      copy:
+        content: |
+          # Sample configuration
+          APP_NAME=MyApplication
+          APP_VERSION=1.0.0
+          ENVIRONMENT=production
+          LOG_LEVEL=info
+        dest: /opt/myapp/config.conf
+        mode: "0644"
+
+    - name: Create a sample script
+      copy:
+        content: |
+          #!/bin/bash
+          echo "Hello from Ansible on $(date)"
+          echo "Running SL command..."
+          sl
+        dest: /opt/myapp/demo.sh
+        mode: "0755"
+
+    - name: Create systemd service file
+      copy:
+        content: |
+          [Unit]
+          Description=My Application Demo
+          After=network.target
+
+          [Service]
+          Type=oneshot
+          ExecStart=/opt/myapp/demo.sh
+
+          [Install]
+          WantedBy=multi-user.target
+        dest: /etc/systemd/system/myapp-demo.service
+        mode: "0644"
+
+    - name: Enable and start demo service
+      systemd:
+        name: myapp-demo
+        enabled: yes
+        daemon_reload: yes
