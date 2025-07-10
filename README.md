@@ -2,6 +2,8 @@
 
 AWS CDK or Terraform でPrivate SubnetにEC2を配置し、SSM経由でAnsibleを使用して環境構築を行う。
 
+<img width="1071" height="959" alt="名称未設定ファイル drawio (5)" src="https://github.com/user-attachments/assets/f0b3fb8f-d10e-42e8-9b1b-8d6c18b634d5" />
+
 ## 前提条件
 
 - AWS CDK
