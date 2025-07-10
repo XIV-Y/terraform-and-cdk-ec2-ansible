@@ -1,19 +1,34 @@
-# AWS CDK + Ansible EC2 Setup
+# AWS CDK or Terraform + Ansible EC2 Setup
 
-AWS CDKでPrivate SubnetにEC2を配置し、SSM経由でAnsibleを使用して環境構築を行う。
+AWS CDK or Terraform でPrivate SubnetにEC2を配置し、SSM経由でAnsibleを使用して環境構築を行う。
 
 ## 前提条件
 
-- AWS CLIが設定済みであること
-- AWS CDKがインストール済みであること
+- AWS CDK
+  - AWS CLIが設定済みであること
+  - AWS CDKがインストール済みであること
+ 
+- Terraform
+  - Terraformがインストール済みであること
 
 ## 手順
 
 ### 1. AWSリソースのデプロイ
 
+AWS
 ```bash
 npm install
 npx cdk deploy
+```
+
+Terraform
+```bash
+terraform init
+
+# 必要に応じて
+terraform plan 
+
+terraform apply
 ```
 
 デプロイ完了後、インスタンスIDを確認する：
